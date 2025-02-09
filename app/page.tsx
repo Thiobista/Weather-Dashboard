@@ -10,29 +10,25 @@ export default function HomePage() {
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedCity, setSelectedCity] = useState<string>("");
   const [loading, setLoading] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
   const router = useRouter();
 
   const handleSearch = async () => {
     const searchCity = selectedCity.trim() !== "" ? selectedCity : city.trim();
-
     if (searchCity === "") {
-      alert("Invalid city name is entered.");
+      alert("Invalid city name entered.");
       return;
     }
-
     setLoading(true);
-
     try {
       const response = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${searchCity}&appid=${API_KEY}&units=metric`
       );
-
       if (!response.ok) {
-        alert("Invalid city name is entered.");
+        alert("Invalid city name entered.");
         setLoading(false);
         return;
       }
-
       router.push(`/weather/${searchCity}`);
     } catch {
       alert("Error fetching weather data. Please try again.");
@@ -45,7 +41,6 @@ export default function HomePage() {
       setSuggestions([]);
       return;
     }
-
     const fetchCities = async () => {
       try {
         const response = await fetch(
@@ -59,18 +54,30 @@ export default function HomePage() {
         console.error("Error fetching city data");
       }
     };
-
     fetchCities();
   }, [city]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-teal-400 via-cyan-500 to-blue-600 flex flex-col items-center justify-center p-8 text-white">
-      <h1 className="text-6xl font-bold mb-8 text-center tracking-wide uppercase shadow-lg">
-        Weather Dashboard
-      </h1>
+    <div
+      className={`min-h-screen flex flex-col items-center justify-center p-8 transition-all duration-300 ${
+        darkMode ? "bg-gray-900 text-white" : "bg-blue-100 text-gray-900"
+      }`}
+    >
+      <button
+        onClick={() => setDarkMode(!darkMode)}
+        className="absolute top-6 right-6 p-3 bg-gray-800 text-white rounded-lg shadow-md hover:bg-gray-700 transition-all duration-300"
+      >
+        {darkMode ? "🌞 Light Mode" : "🌙 Dark Mode"}
+      </button>
 
-      <div className="bg-white rounded-lg p-6 shadow-xl w-full max-w-md relative z-10">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-4 text-center">Find the Current Weather</h2>
+      <h1 className="text-5xl font-extrabold mb-8 tracking-wide">Weather Dashboard</h1>
+
+      <div className={`rounded-lg p-6 shadow-xl w-full max-w-md ${darkMode ? "bg-gray-800" : "bg-white"}`}>
+        <h2
+          className={`text-2xl font-semibold mb-4 text-center ${darkMode ? "text-gray-300" : "text-gray-700"}`}
+        >
+          Find the Current Weather
+        </h2>
 
         <div className="relative flex items-center gap-4">
           <input
@@ -78,12 +85,20 @@ export default function HomePage() {
             placeholder="Enter city name"
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            className="p-4 rounded-lg border border-gray-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all duration-300 ease-in-out text-black w-full"
+            className={`p-4 rounded-lg border shadow-lg focus:outline-none focus:ring-2 w-full transition-all duration-300 text-black ${
+              darkMode
+                ? "border-gray-600 bg-gray-700 text-white focus:ring-gray-400"
+                : "border-gray-300 focus:ring-blue-500"
+            }`}
           />
 
           <button
             onClick={handleSearch}
-            className="bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105"
+            className={`font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 transform hover:scale-105 ${
+              darkMode
+                ? "bg-gray-600 hover:bg-gray-700 text-white"
+                : "bg-blue-600 hover:bg-blue-700 text-white"
+            }`}
             disabled={loading}
           >
             {loading ? "Loading..." : "Search"}
@@ -91,8 +106,12 @@ export default function HomePage() {
         </div>
 
         {suggestions.length > 0 && (
-          <div className="absolute w-full max-w-md bg-white border border-gray-300 rounded-lg shadow-lg mt-2 max-h-60 overflow-auto animate-fadeIn">
-            <ul className="divide-y divide-gray-200">
+          <div
+            className={`absolute w-full max-w-md border rounded-lg shadow-lg mt-2 max-h-60 overflow-auto animate-fadeIn ${
+              darkMode ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-gray-300 text-black"
+            } z-10`}
+          >
+            <ul className="divide-y">
               {suggestions.map((suggestion, index) => (
                 <li
                   key={index}
@@ -101,10 +120,12 @@ export default function HomePage() {
                     setSelectedCity(suggestion);
                     setSuggestions([]);
                   }}
-                  className="p-4 cursor-pointer transition-all duration-200 ease-in-out hover:bg-teal-100 hover:text-teal-700 text-black flex items-center justify-between rounded-lg transform hover:scale-105"
+                  className={`p-4 cursor-pointer transition-all duration-200 hover:scale-105 rounded-lg flex items-center justify-between ${
+                    darkMode ? "hover:bg-gray-600" : "hover:bg-indigo-100"
+                  }`}
                 >
                   <span className="font-medium">{suggestion}</span>
-                  <span className="text-sm text-gray-500">🌍 City</span>
+                  <span className="text-sm">🌍 City</span>
                 </li>
               ))}
             </ul>
@@ -112,7 +133,7 @@ export default function HomePage() {
         )}
       </div>
 
-      <footer className="mt-12 text-center text-gray-300 text-sm">
+      <footer className="mt-12 text-center text-sm opacity-80">
         <p>&copy; 2025 Weather Dashboard. All Rights Reserved.</p>
       </footer>
     </div>
