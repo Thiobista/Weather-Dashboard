@@ -1,4 +1,4 @@
-"use client"; 
+"use client";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -19,27 +19,26 @@ export default function HomePage() {
       alert("Invalid city name is entered.");
       return;
     }
-  
+
     setLoading(true);
-  
+
     try {
       const response = await fetch(
         `https://api.openweathermap.org/data/2.5/weather?q=${searchCity}&appid=${API_KEY}&units=metric`
       );
-  
+
       if (!response.ok) {
         alert("Invalid city name is entered.");
         setLoading(false);
         return;
       }
-  
+
       router.push(`/weather/${searchCity}`);
-    } catch { 
+    } catch {
       alert("Error fetching weather data. Please try again.");
       setLoading(false);
     }
   };
-  
 
   useEffect(() => {
     if (city.trim() === "") {
@@ -56,7 +55,7 @@ export default function HomePage() {
         if (data.list) {
           setSuggestions(data.list.map((city: { name: string }) => city.name));
         }
-      } catch {  
+      } catch {
         console.error("Error fetching city data");
       }
     };
@@ -65,10 +64,12 @@ export default function HomePage() {
   }, [city]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-600 to-pink-500 flex flex-col items-center justify-center p-8 text-white">
-      <h1 className="text-5xl font-extrabold mb-8 tracking-wide">Weather Dashboard</h1>
+    <div className="min-h-screen bg-gradient-to-r from-teal-400 via-cyan-500 to-blue-600 flex flex-col items-center justify-center p-8 text-white">
+      <h1 className="text-6xl font-bold mb-8 text-center tracking-wide uppercase shadow-lg">
+        Weather Dashboard
+      </h1>
 
-      <div className="bg-white rounded-lg p-6 shadow-xl w-full max-w-md">
+      <div className="bg-white rounded-lg p-6 shadow-xl w-full max-w-md relative z-10">
         <h2 className="text-2xl font-semibold text-gray-700 mb-4 text-center">Find the Current Weather</h2>
 
         <div className="relative flex items-center gap-4">
@@ -77,12 +78,12 @@ export default function HomePage() {
             placeholder="Enter city name"
             value={city}
             onChange={(e) => setCity(e.target.value)}
-            className="p-4 rounded-lg border border-gray-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300 ease-in-out text-black w-full"
+            className="p-4 rounded-lg border border-gray-300 shadow-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all duration-300 ease-in-out text-black w-full"
           />
 
           <button
             onClick={handleSearch}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105"
+            className="bg-teal-600 hover:bg-teal-700 text-white font-semibold py-3 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105"
             disabled={loading}
           >
             {loading ? "Loading..." : "Search"}
@@ -100,7 +101,7 @@ export default function HomePage() {
                     setSelectedCity(suggestion);
                     setSuggestions([]);
                   }}
-                  className="p-4 cursor-pointer transition-all duration-200 ease-in-out hover:bg-indigo-100 hover:text-indigo-700 text-black flex items-center justify-between rounded-lg transform hover:scale-105"
+                  className="p-4 cursor-pointer transition-all duration-200 ease-in-out hover:bg-teal-100 hover:text-teal-700 text-black flex items-center justify-between rounded-lg transform hover:scale-105"
                 >
                   <span className="font-medium">{suggestion}</span>
                   <span className="text-sm text-gray-500">🌍 City</span>
