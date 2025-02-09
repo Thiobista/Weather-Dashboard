@@ -82,22 +82,6 @@ https://api.openweathermap.org/data/2.5/weather?q=London&appid=YOUR_API_KEY&unit
 
 
 
-Project Structure
-/pages
-  /index.tsx              # Homepage (search bar and city search logic)
-  /weather/[city].tsx     # City weather details page
-/store
-  /weatherSlice.ts        # Redux slice for weather data and state management
-/components
-  /WeatherCard.tsx        # Weather card component displaying weather data
-  /SearchBar.tsx          # Search bar component for city input
-/utils
-  /api.ts                 # Utility for API calls to OpenWeather
-/styles
-  /globals.css            # Global styles for the app
-  /tailwind.config.js     # Tailwind CSS configuration
-
-
 Error Handling
 If the user enters an invalid city name or the API request fails, an error message is displayed.
 The app also provides loading indicators while fetching data from the API.

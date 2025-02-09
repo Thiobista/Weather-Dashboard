@@ -72,14 +72,20 @@ export default function HomePage() {
 
       <h1 className="text-5xl font-extrabold mb-8 tracking-wide">Weather Dashboard</h1>
 
-      <div className={`rounded-lg p-6 shadow-xl w-full max-w-md ${darkMode ? "bg-gray-800" : "bg-white"}`}>
+      <div
+        className={`rounded-lg p-6 shadow-xl w-full max-w-md ${
+          darkMode ? "bg-gray-800" : "bg-white"
+        }`}
+      >
         <h2
-          className={`text-2xl font-semibold mb-4 text-center ${darkMode ? "text-gray-300" : "text-gray-700"}`}
+          className={`text-2xl font-semibold mb-4 text-center ${
+            darkMode ? "text-gray-300" : "text-gray-700"
+          }`}
         >
           Find the Current Weather
         </h2>
 
-        <div className="relative flex items-center gap-4">
+        <div className="relative w-full">
           <input
             type="text"
             placeholder="Enter city name"
@@ -92,45 +98,45 @@ export default function HomePage() {
             }`}
           />
 
-          <button
-            onClick={handleSearch}
-            className={`font-semibold py-3 px-6 rounded-lg shadow-md transition duration-300 transform hover:scale-105 ${
-              darkMode
-                ? "bg-gray-600 hover:bg-gray-700 text-white"
-                : "bg-blue-600 hover:bg-blue-700 text-white"
-            }`}
-            disabled={loading}
-          >
-            {loading ? "Loading..." : "Search"}
-          </button>
+          {suggestions.length > 0 && (
+            <div
+              className={`absolute left-0 w-full border rounded-lg shadow-lg mt-1 max-h-60 overflow-auto animate-fadeIn z-10 ${
+                darkMode
+                  ? "bg-gray-700 border-gray-600 text-white"
+                  : "bg-white border-gray-300 text-black"
+              }`}
+            >
+              <ul className="divide-y">
+                {suggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    onClick={() => {
+                      setCity(suggestion);
+                      setSelectedCity(suggestion);
+                      setSuggestions([]);
+                    }}
+                    className={`p-4 cursor-pointer transition-all duration-200 hover:scale-105 rounded-lg flex items-center justify-between ${
+                      darkMode ? "hover:bg-gray-600" : "hover:bg-indigo-100"
+                    }`}
+                  >
+                    <span className="font-medium">{suggestion}</span>
+                    <span className="text-sm">🌍 City</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
-        {suggestions.length > 0 && (
-          <div
-            className={`absolute w-full max-w-md border rounded-lg shadow-lg mt-2 max-h-60 overflow-auto animate-fadeIn ${
-              darkMode ? "bg-gray-700 border-gray-600 text-white" : "bg-white border-gray-300 text-black"
-            } z-10`}
-          >
-            <ul className="divide-y">
-              {suggestions.map((suggestion, index) => (
-                <li
-                  key={index}
-                  onClick={() => {
-                    setCity(suggestion);
-                    setSelectedCity(suggestion);
-                    setSuggestions([]);
-                  }}
-                  className={`p-4 cursor-pointer transition-all duration-200 hover:scale-105 rounded-lg flex items-center justify-between ${
-                    darkMode ? "hover:bg-gray-600" : "hover:bg-indigo-100"
-                  }`}
-                >
-                  <span className="font-medium">{suggestion}</span>
-                  <span className="text-sm">🌍 City</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <button
+          onClick={handleSearch}
+          className={`font-semibold mt-4 py-3 px-6 w-full rounded-lg shadow-md transition duration-300 transform hover:scale-105 ${
+            darkMode ? "bg-gray-600 hover:bg-gray-700 text-white" : "bg-blue-600 hover:bg-blue-700 text-white"
+          }`}
+          disabled={loading}
+        >
+          {loading ? "Loading..." : "Search"}
+        </button>
       </div>
 
       <footer className="mt-12 text-center text-sm opacity-80">
