@@ -54,7 +54,7 @@ export default function CityWeather() {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
-        className={`relative p-10 rounded-3xl shadow-3xl max-w-4xl w-full mx-6 sm:mx-8 md:mx-12 lg:mx-auto border border-white/20 ${darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"}`}
+        className={`relative p-8 rounded-3xl shadow-3xl max-w-lg w-full mx-6 sm:mx-8 md:mx-12 lg:mx-auto border border-white/20 ${darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"}`}
       >
         {/* Dark Mode Toggle */}
         <button onClick={toggleDarkMode} className="absolute top-4 right-4 p-2 rounded-full bg-gray-600 hover:bg-gray-800 transition">

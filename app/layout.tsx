@@ -5,7 +5,11 @@ import { Provider } from "react-redux";
 import store from "../store/store";
 import "./globals.css"; // ✅ Ensure this file exists
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+interface RootLayoutProps {
+  children: ReactNode;
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="en">
       <body>

@@ -6,11 +6,11 @@ import { useRouter } from "next/navigation";
 const API_KEY = "26373a759031315dc0b7b714bc0f31fe";
 
 export default function HomePage() {
-  const [city, setCity] = useState("");
+  const [city, setCity] = useState<string>("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [selectedCity, setSelectedCity] = useState<string>("");
-  const [loading, setLoading] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
   const router = useRouter();
 
   const handleSearch = async () => {
