@@ -78,7 +78,7 @@ export default function HomePage() {
       }
       
       return true;
-    } catch {
+    } catch (error) {
       setError("Network error. Please check your connection and try again.");
       return false;
     } finally {
@@ -97,7 +97,7 @@ export default function HomePage() {
     
     try {
       router.push(`/weather/${encodeURIComponent(searchCity)}`);
-    } catch {
+    } catch (error) {
       setError("Navigation error. Please try again.");
       setLoading(false);
     }
@@ -138,7 +138,7 @@ export default function HomePage() {
       const data = await response.json();
       
       if (data.list) {
-        const formattedSuggestions = data.list.map((city: { name: string; sys: { country: string }; state?: string }) => ({
+        const formattedSuggestions = data.list.map((city: any) => ({
           name: city.name,
           country: city.sys.country,
           state: city.state || undefined,
@@ -146,8 +146,8 @@ export default function HomePage() {
         setSuggestions(formattedSuggestions);
         setShowSuggestions(true);
       }
-    } catch {
-      console.error("Error fetching city suggestions");
+    } catch (error) {
+      console.error("Error fetching city suggestions:", error);
     }
   };
 

@@ -6,7 +6,6 @@ import { fetchWeather } from "@/store/weatherSlice";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Sun, Moon, ArrowLeft, RefreshCw, Thermometer, Droplets, Wind, Clock, MapPin } from "lucide-react";
-import WeatherForecast from "@/components/WeatherForecast";
 
 interface WeatherData {
   name: string;
@@ -380,7 +379,7 @@ export default function CityWeather() {
           </div>
 
           {/* Toggle Button */}
-          <div className="text-center mb-8">
+          <div className="text-center">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -394,13 +393,6 @@ export default function CityWeather() {
               Switch to {isCelsius ? "Fahrenheit" : "Celsius"}
             </motion.button>
           </div>
-
-          {/* Weather Forecast */}
-          <WeatherForecast 
-            city={decodeURIComponent(city || "")} 
-            darkMode={darkMode} 
-            isCelsius={isCelsius} 
-          />
         </motion.div>
       </div>
     </div>
